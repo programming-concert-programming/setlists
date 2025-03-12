@@ -1,0 +1,13 @@
+name: setlists
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python>=3.9
+  - numpy
+  - pip
+  - pandas
+  - matplotlib
+  - seaborn
