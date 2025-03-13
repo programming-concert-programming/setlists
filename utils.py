@@ -25,25 +25,29 @@ SPOTIFY_ID = "put your ID here ;)"
 SPOTIFY_SECRET = "put your secrets here ... only the Spotify ones though ... ;)"
 
 
-default_band_list = [
-    "Bastille",
-    "Coldplay",
-    "FooFighters",
-    "ImagineDragons",
-    "Keane",
-    "KingsOfLeon",
-    "Maroon5",
-    "Muse",
-    "OneRepublic",
-    "PanicAtTheDisco",
-    "SnowPatrol",
-    "TheFray",
-    "TheScript",
-    "ThirtySecondsToMars",
-    "Train",
-    "Travis",
-    "TwentyOnePilots",
-]
+default_band_id_dict = {
+    "Bastille": "bastille-23def877",
+    "Coldplay": "coldplay-3d6bde3.html",
+    "FooFighters": "foo-fighters-bd6893a",
+    "ImagineDragons": "imagine-dragons-5bd1b7fc",
+    "Keane": "keane-bd6bdfa",
+    "KingsOfLeon": "kings-of-leon-23d6985b",
+    "Maroon5": "maroon-5-4bd6bfea",
+    "Muse": "muse-53d6ebd5",
+    "OneRepublic": "onerepublic-33d6bc51",
+    "PanicAtTheDisco": "panic-at-the-disco-23d6bccb",
+    "SnowPatrol": "snow-patrol-13d6bd05",
+    "TheFray": "the-fray-53d6bfe9",
+    "TheScript": "the-script-53d657dd",
+    "ThirtySecondsToMars": "thirty-seconds-to-mars-5bd6e3e8",
+    "Train": "train-7bd6b650",
+    "Travis": "travis-1bd6bd10",
+    "TwentyOnePilots": "twenty-one-pilots-7bd3caf0"
+}
+
+
+default_band_list = list(default_band_id_dict.keys())
+
 
 spotify_features = [
     "danceability",
