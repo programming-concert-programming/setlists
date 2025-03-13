@@ -1,4 +1,4 @@
-# Placeholder directory
+# Placeholder directory for distinct setlist IDs
 
 This directory could be used to host distinct setlist IDs
 in the form of one or more csv files with
