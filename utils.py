@@ -16,8 +16,14 @@ from pathlib import Path
 THIS_DIR = Path.cwd()
 
 USER_AGENT = "put your details here ;)"
+HEADERS = {"User-Agent": USER_AGENT}
+PARSER = "html.parser"  # or "lxml" (preferred) or "html5lib", if installed
+
 SETLIST_FM_KEY = "put your key here ;)"
-SPOTIFY_KEY = "put your key here ;)"
+
+SPOTIFY_ID = "put your ID here ;)"
+SPOTIFY_SECRET = "put your secrets here ... only the Spotify ones though ... ;)"
+
 
 default_band_list = [
     "Bastille",
