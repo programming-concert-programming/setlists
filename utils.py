@@ -27,7 +27,7 @@ SPOTIFY_SECRET = "put your secrets here ... only the Spotify ones though ... ;)"
 
 default_band_id_dict = {
     "Bastille": "bastille-23def877",
-    "Coldplay": "coldplay-3d6bde3.html",
+    "Coldplay": "coldplay-3d6bde3",
     "FooFighters": "foo-fighters-bd6893a",
     "ImagineDragons": "imagine-dragons-5bd1b7fc",
     "Keane": "keane-bd6bdfa",
