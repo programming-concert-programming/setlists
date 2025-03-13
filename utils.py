@@ -12,6 +12,9 @@ Currently:
 
 __author__ = ["Mark Gotham"]
 
+from pathlib import Path
+THIS_DIR = Path.cwd()
+
 USER_AGENT = "put your details here ;)"
 SETLIST_FM_KEY = "put your key here ;)"
 SPOTIFY_KEY = "put your key here ;)"
