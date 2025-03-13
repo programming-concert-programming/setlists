@@ -10,7 +10,7 @@ Currently:
     - `spotify_features`: the names of 9 features to retrieve from the spotify API for cross-reference.
 """
 
-__author__ = ["Mark Gotham"]
+__author__ = "Mark Gotham"
 
 from pathlib import Path
 THIS_DIR = Path.cwd()
