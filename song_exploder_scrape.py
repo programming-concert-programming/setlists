@@ -27,11 +27,9 @@ from typing import Optional
 from urllib.request import Request, urlopen
 
 # Constants
-from utils import USER_AGENT, THIS_DIR
+from utils import HEADERS, PARSER, THIS_DIR
 
 TARGET_URL = "https://songexploder.net/episodes"
-PARSER = "html.parser"  # or "lxml" (preferred) or "html5lib", if installed
-HEADERS = {"User-Agent": USER_AGENT}
 
 
 def get_podcast_pages(
