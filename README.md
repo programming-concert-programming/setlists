@@ -28,12 +28,12 @@ _setlist.fm_, and retrieves _events_ using the _api_.
 
 ## Directories
 
-- `datasets`: A place to store `.csv` files for setlists and related data in this project.
+- `data`: A place to store `.csv` files for whole events, albums, and related data in this project.
   - See note at [`datasets/README.md`](./datasets/README.md)
-- `distinct_setlist_IDs`: A place to store `.csv` files for distinct setlists.
+- `distinct_setlist_IDs`: A place to store `.csv` files for distinct setlist ids by artist.
   - See note at [`distinct_setlist_IDs/README.md`](./distinct_setlist_IDs/README.md)
-- `playlist_upv`: A place to store `.txt` files for playlist (sic, not setlist) from the UPV project.
-  - See note at [`playlist_upv/README.md`](./playlist_upv/README.md)
+- `setlists`: A place to store `.json` files, one per setlist named by the event ID..
+  - See note at [`setlists/README.md`](./setlists/README.md)
 
 
 ## Licences and contributing
