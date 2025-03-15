@@ -19,12 +19,14 @@ import numpy as np
 
 def get_event_data(
         event_id: str,
-        api_key: str = SETLIST_FM_KEY
+        api_key: Optional[str] = None
 ) -> Optional[dict]:
     """
     Given a valid setlist.fm event_id, return the event data.
     Call the Setlist.fm API, get the.json formatted data.
     """
+    if api_key is None:
+        api_key = SETLIST_FM_KEY
     url = f"https://api.setlist.fm/rest/1.0/setlist/{event_id}"
     headers = {"Accept": "application/json", "x-api-key": api_key}
     r = requests.get(url, headers=headers)
@@ -43,7 +45,7 @@ def extract_event_date(event_data: dict) -> list:
     return [date, year]
 
 
-def extract_tour_name(event_data: dict) -> str:
+def extract_tour_name(event_data: dict) -> Union[str, float]:
     """
     Extract the tour name from the event data.
     """
@@ -68,7 +70,15 @@ def process_event_ids(event_ids: list) -> dict:
     In the case of failure with one event ID, print a note (rather than raising an error)
     and continue to later items on the list.
     """
-    results = {"event_id": [], "date": [], "year": [], "tour_name": [], "venue_id": [], "venue_name": []}
+    results = {
+        "event_id": [],
+        "date": [],
+        "year": [],
+        "tour_name": [],
+        "venue_id": [],
+        "venue_name": []
+    }
+
     for event_id in event_ids:
         print(f"Processing event id: {event_id}")
         time.sleep(3)
@@ -91,7 +101,7 @@ def process_event_ids(event_ids: list) -> dict:
 
 def export_to_csv(
         results: dict,
-        filename: str = "TestSetlist.csv"
+        filename: str
 ) -> None:
     """
     Export the results to a csv file.
@@ -99,7 +109,8 @@ def export_to_csv(
     Args:
         results (dict): Dictionary containing the results to export.
         filename (str): The name of the output file.
-            Please note that the path (where to write the csv to) is hard-coded as the "data" directory.
+            Please note that the path (where to write the csv to) is hard-coded to the "data" directory.
+            Only the name is variable.
     """
     df = pd.DataFrame(results)
     out_path = THIS_DIR / "data" / filename
@@ -119,13 +130,10 @@ def load_event_ids_from_csv(
         list: List of event ids loaded from the csv file.
     """
     df = pd.read_csv(filename, sep=",", engine="python")
-    return df["eventID"].unique()  #.tolist()
+    return df["eventID"].unique()
 
 
-def main(
-        band_name: str = "Test",
-        write_separate: bool = False
-) -> None:
+def main(band_name: str = "Test") -> None:
     """
     Main function to process event ids and export results to csv files.
 
@@ -137,26 +145,6 @@ def main(
     event_ids = load_event_ids_from_csv(THIS_DIR / "distinct_setlist_IDs" / f"{band_name}.csv")
     results = process_event_ids(event_ids)
     export_to_csv(results, f"{band_name}_event_date_tour_venue.csv")
-
-    if write_separate:
-        tour_results = {
-            "event_id": results["event_id"],
-            "tour_name": results["tour_name"]
-        }
-        export_to_csv(
-            tour_results,
-            f"{band_name}_tour_name.csv"
-        )
-
-        venue_results = {
-            "event_id": results["event_id"],
-            "venue_id": results["venue_id"],
-            "venue_name": results["venue_name"]
-        }
-        export_to_csv(
-            venue_results,
-            f"{band_name}_venue_name.csv"
-        )
 
 
 if __name__ == "__main__":
