@@ -153,7 +153,7 @@ def main(
         print_when_empty: bool = False
 ):
     if use_local_url_list:
-        from song_exploder_transcript_urls import se_urls as transcript_urls
+        from song_exploder import se_urls as transcript_urls
     else:
 
         podcast_pages = get_podcast_pages(TARGET_URL, HEADERS)
