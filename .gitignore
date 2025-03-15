@@ -180,4 +180,5 @@ distinct_setlist_IDs/*
 data/*
 song_exploder/*
 setlists/*
+plots/*
 sandbox.py
