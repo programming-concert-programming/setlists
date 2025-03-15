@@ -19,7 +19,7 @@ To cite this work, please refer to the paper and
 
 ## Scripts
 
-The main python files are names in the form
+The main python files are named in the form
 `{where}_{what}_{how}`.
 E.g., 
 `setlistfm_events_api` goes to 
