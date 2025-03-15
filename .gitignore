@@ -179,4 +179,5 @@ utils.py
 distinct_setlist_IDs/*
 data/*
 song_exploder/*
+setlists/*
 sandbox.py
