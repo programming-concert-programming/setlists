@@ -17,6 +17,15 @@ To cite this work, please refer to the paper and
 [this repo (you are here)](https://github.com/programming-concert-programming/setlists).
 
 
+## Scripts
+
+The main python files are names in the form
+`{where}_{what}_{how}`.
+E.g., 
+`setlistfm_events_api` goes to 
+_setlist.fm_, and retrieves _events_ using the _api_.
+
+
 ## Directories
 
 - `datasets`: A place to store `.csv` files for setlists and related data in this project.
