@@ -3,12 +3,12 @@ This module creates a list of se transcript URLs.
 
 This is because the structure of those URLs changes over time.
 
-- First this format:
+- First there is this format:
     - [f"http://songexploder.net/transcripts/{x}-transcript.pdf" for x in older_http_URLs]
-- Then some transition which is less systematic (individually named in full as `transition_period` below).
-- Finally (to present):
+- More recently (to present) the format is:
     - https://songexploder.net/wp-content/uploads/{year}/{month}/Song-Exploder-{name}-Transcript.pdf
     - This is organised as [f"https://songexploder.net/wp-content/uploads/{x}-Transcript.pdf" for x in recent_URLs]
+- And there are some exceptions during the transition between these two (and elsewhere) which are less systematic (individually named here).
 
 This module builds the URLs for all cases, disambiguating the structure, producing a single list of
 284 episodes (as of 2025/02).
@@ -28,7 +28,6 @@ recent_URLs = [
 "2024/10/Song-Exploder-Pharrell-Williams",
 "2024/09/Song-Exploder-Troye-Sivan",
 "2024/09/Song-Exploder-Beabadoobee",
-"2024/08/Song-Exploder-Remi-Wolf-Transcript-1.pdf",
 "2024/07/Song-Exploder-Sam-Smith",
 "2024/07/Song-Exploder-Fenne-Lily",
 "2024/06/Song-Exploder-Crowded-House",
@@ -54,12 +53,10 @@ recent_URLs = [
 "2023/05/Song-Exploder-Feist",
 "2023/05/Song-Exploder-Madison-McFerrin",
 "2023/05/Song-Exploder-New-Order",
-"2023/04/Song-Exploder-Yaeji-Transcript-.pdf",
 "2023/03/Song-Exploder-Seal",
 "2023/03/Song-Exploder-Kenny-Beats",
 "2023/02/Song-Exploder-Muna",
 "2023/01/Song-Exploder-Noah-Kahan",
-"2022/12/Song-Exploder-Sampa-the-Great-Transcript-.pdf",
 "2022/12/Song-Exploder-Son-Lux",
 "2022/11/Song-Exploder-Omah-Lay",
 "2022/11/Song-Exploder-Iron-Wine",
@@ -73,7 +70,10 @@ recent_URLs = [
 ]
 
 
-transition_period = [
+exceptions = [
+"https://songexploder.net/wp-content/uploads/2024/08/Song-Exploder-Remi-Wolf-Transcript-1.pdf",
+"https://songexploder.net/wp-content/uploads/2023/04/Song-Exploder-Yaeji-Transcript-.pdf",
+"https://songexploder.net/wp-content/uploads/2022/12/Song-Exploder-Sampa-the-Great-Transcript-.pdf",
 "https://songexploder.net/wp-content/uploads/2022/08/Song-Exploder-Sudan-Archives-Transcript.docx.pdf",
 "https://songexploder.net/song-exploder-mxmtoon-transcript-docx",
 "http://songexploder.net/transcripts/monica-martin-transcript.pdf",
@@ -315,5 +315,5 @@ older_http_URLs = [
 
 
 se_urls = [f"https://songexploder.net/wp-content/uploads/{x}-Transcript.pdf" for x in recent_URLs]
-se_urls += transition_period
+se_urls += exceptions
 se_urls += [f"http://songexploder.net/transcripts/{x}-transcript.pdf" for x in older_http_URLs]
