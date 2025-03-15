@@ -11,6 +11,7 @@ THIS_DIR = Path.cwd()
 
 from utils import SETLIST_FM_KEY
 
+import json
 import pandas as pd
 import requests
 import time
@@ -64,11 +65,21 @@ def extract_venue_data(event_data: dict) -> list:
     return [venue["id"], venue["name"]]
 
 
-def process_event_ids(event_ids: list) -> dict:
+def process_event_ids(
+        event_ids: list,
+        write_full_sets: bool = True
+) -> dict:
     """
     Process a list of event ids and return a dictionary with the results.
     In the case of failure with one event ID, print a note (rather than raising an error)
     and continue to later items on the list.
+
+    Args:
+        event_ids (list): A list of valid setlist.fm event IDs.
+        write_full_sets (bool): If true, as well as
+            writing event-level data to a csv in the "data" directory, also
+            dump full set information to separate .json files in the "setlists" directory.
+
     """
     results = {
         "event_id": [],
@@ -80,13 +91,24 @@ def process_event_ids(event_ids: list) -> dict:
     }
 
     for event_id in event_ids:
+
         print(f"Processing event id: {event_id}")
         time.sleep(3)
+
         try:
             event_data = get_event_data(event_id)
         except:
             print(f"Failed to retrieve data for event {event_id}")
             continue
+
+        if write_full_sets:
+            try:
+                with open(THIS_DIR / "setlists" / f"{event_id}.json", "w") as f:
+                    json.dump(event_data['sets']['set'], f, indent=4)
+            except:
+                print(f"Failed to retrieve full setlist data for event {event_id}")
+                continue
+
         date, year = extract_event_date(event_data)
         tour_name = extract_tour_name(event_data)
         venue_id, venue_name = extract_venue_data(event_data)
