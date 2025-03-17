@@ -5,7 +5,6 @@ This complements the more structured API calls elsewhere.
 
 __author__ = ["Mark Gotham", "Shujin Gan"]
 
-
 from bs4 import BeautifulSoup
 import pandas as pd
 import re
@@ -13,9 +12,9 @@ from typing import Optional
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
-
 # Constants
 from utils import HEADERS, THIS_DIR, default_band_id_dict
+
 BASE_URL = "https://www.setlist.fm"
 
 
@@ -57,6 +56,7 @@ def get_tour_ids(
             tour_ids.append(tour_id)
     return tour_ids
 
+
 def get_tour_name(soup: BeautifulSoup) -> str:
     """
     Extract the tour name from the tour stats page.
@@ -75,6 +75,7 @@ def get_tour_name(soup: BeautifulSoup) -> str:
     else:
         return "No <h1> tag found."
 
+
 def get_songs(soup: BeautifulSoup) -> list:
     """
     Extract the songs from the tour stats page.
@@ -88,6 +89,7 @@ def get_songs(soup: BeautifulSoup) -> list:
     pattern = r'<a\s+class="songLabel"\s+href="[^"]*"\s+title="[^"]*">([^<]+)</a>'
     matches = re.findall(pattern, str(soup))
     return matches
+
 
 def run_one(
         artist_id: str = "coldplay-3d6bde3",
@@ -127,7 +129,7 @@ def run_one(
     df = pd.DataFrame({
         "eventID": tour_id_df,
         "tour": tours,
-       "song": songs
+        "song": songs
     })
 
     df.to_csv(THIS_DIR / "data" / f"{artist_name}_average_setlist.csv", index=False)
