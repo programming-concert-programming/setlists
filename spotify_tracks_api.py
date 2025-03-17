@@ -223,7 +223,7 @@ def process_artist(
     setlist_df = load_data(artist)
     tracks = get_unique_tracks(setlist_df)
     track_df = get_track_data(artist, tracks, sp, write=True)
-    album_df = get_album_data(artist, track_df, sp, write=True)
+    get_album_data(artist, track_df, sp, write=True)
     print("... done")
 
 
