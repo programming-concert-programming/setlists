@@ -75,6 +75,16 @@ Task:
   - Figure out where to put your "key".
   - Pick any event on setlist.fm and note the event ID.
   - Get the code running to retrieve full data for that event.
+- Hint:
+  - For a simple starting point, you can see the ID of an event ID in the main, public-facing URLs. 
+    - These URLs take various forms, ending with the event ID, such as:
+      - `https://www.setlist.fm/setlists/{artist_and_other_text}_{event_ID}.html`
+      - Or `https://www.setlist.fm/setlist/{artist}/{year/{venue-with-dashes}-{location}-{event_ID}.html`
+  - From this, you can construct the version of the URL for the API which is in the form:
+    - `https://api.setlist.fm/rest/1.0/setlist/{event_id}`
+  - This doesn't work (manually) the other way round:
+    - Knowing the event ID is not enough to reconstruct the public-facing URL. 
+  - It _is enough_ via the API. The json data for an event includes a key:value pair for the URL.
 - Bonus: Try writing all the scripts from nothing, without the reference solutions.
 
 
@@ -123,7 +133,7 @@ to complement the more structured API call.
 
 Task:
 - Pick an artist (`artist_id`) and tour (`tour_id`) of interest.
-  - Head to the corresponding `target_url`at f"https://www.setlist.fm/stats/average-setlist/{artist_id}.html?tour={tour_id}"
+  - Head to the corresponding `target_url`at `https://www.setlist.fm/stats/average-setlist/{artist_id}.html?tour={tour_id}`
   - Use `BeautifulSoup` (or equivalent) to get parsed HTML of that tour stats page.
   - Extract songs from the tour stats page using a regex pattern.
 
