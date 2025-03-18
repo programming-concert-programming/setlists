@@ -68,14 +68,18 @@ Getting Started:
     - E.g., you could say "Basic exploration for research and teaching. Non-commercial."
     - The key is usually granted immediately.
 - Note: not all APIs are so straightforward.
+- You will also need "user agent" info.
+  - You can find yours at a site like [useragentstring.com](https://useragentstring.com/)
 
 Task:
+- Basic version:
+  - Open `sandbox.ipynb` and follow instructions there.
 - Standard version:
   - Have a look at [the code repo](https://github.com/programming-concert-programming/setlists).
-  - Figure out where to put your "key".
-  - Pick any event on setlist.fm and note the event ID.
+  - Figure out where to put your "API key" and "user agent" information.
+  - Pick any event on setlist.fm and note the event ID*. 
   - Get the code running to retrieve full data for that event.
-- Hint:
+- *Hint:
   - For a simple starting point, you can see the ID of an event ID in the main, public-facing URLs. 
     - These URLs take various forms, ending with the event ID, such as:
       - `https://www.setlist.fm/setlists/{artist_and_other_text}_{event_ID}.html`
@@ -85,7 +89,8 @@ Task:
   - This doesn't work (manually) the other way round:
     - Knowing the event ID is not enough to reconstruct the public-facing URL. 
   - It _is enough_ via the API. The json data for an event includes a key:value pair for the URL.
-- Bonus: Try writing all the scripts from nothing, without the reference solutions.
+- Bonus version:
+  - Try writing all the scripts from nothing, without the reference solutions.
 
 
 ## Task 2: Spotify API (optional)
