@@ -17,6 +17,12 @@ To cite this work, please refer to the paper and
 [this repo (you are here)](https://github.com/programming-concert-programming/setlists).
 
 
+## Tutorial-demonstration on APIs and concert setlists
+
+For a tutorial-demonstration on APIs and concert setlists,
+head to the [index.md file](./index.md).
+
+
 ## Scripts
 
 The main python files are named in the form
