@@ -2,7 +2,7 @@
 Here, we store constants and other basic, shared elements: anything intended to be re-purposed.
 Currently:
 - Constants for user-specific details for which the below is a placeholder to be replaced with your details. Hints:
-    - `SETLIST_FM_KEY`: Quickly and freely provided at [setlist.net](https://api.setlist.fm/docs/1.0/index.html).
+    - `SETLIST_FM_KEY`: Quickly and freely provided at [setlist.fm](https://api.setlist.fm/docs/1.0/index.html).
     - `SPOTIFY_KEY`: As before. This is optional, relevant only to tasks specific to the spotify API.
     - `USER_AGENT`: user agent info. Find yours at a site like [useragentstring.com](https://useragentstring.com/)
 - Basic lists:
