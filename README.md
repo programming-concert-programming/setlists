@@ -1,3 +1,9 @@
+![Version](https://img.shields.io/github/v/release/programming-concert-programming/setlists?display_name=tag)
+[![DOI](https://zenodo.org/badge/747293703.svg)](https://doi.org/10.5281/zenodo.16610601)
+![GitHub repo size](https://img.shields.io/github/repo-size/programming-concert-programming/setlists)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+
+
 # Never Mind the Playlist ... Here's the Setlist!
 
 This repo provides tools for exploring the set lists on
@@ -11,10 +17,14 @@ data science research, teaching, and general interest,
 promoting engagement with and understanding of the composition of setlists.
 
 For more on the motivation, terminology and more please refer to our paper
-'Mark Gotham and Shujin Gan, "Set Ready, Go! On the Structure of Live Music Setlists", forthcoming, 2025.'
-This is forthcoming; a pre-print is available on request.
-To cite this work, please refer to the paper and
-[this repo (you are here)](https://github.com/programming-concert-programming/setlists).
+"Set Ready, Go! On the Structure of Live Music Setlists".
+(this is forthcoming; a pre-print is available on request.)
+To cite this code repository,
+or otherwise reference our work before that paper comes out,
+please refer to
+[this Zenodo record](https://doi.org/10.5281/zenodo.16610601)
+(which is a mirror of [this repo (you are here)](https://github.com/programming-concert-programming/setlists)).
+
 
 
 ## Tutorial-demonstration on APIs and concert setlists
