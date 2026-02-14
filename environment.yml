@@ -13,3 +13,7 @@ dependencies:
   - seaborn
   - requests
   - bs4
+  - pypdf2
+  - beautifulsoup4
+  - spotipy
+  - spacy
