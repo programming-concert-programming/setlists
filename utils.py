@@ -24,6 +24,9 @@ SETLIST_FM_KEY = "put your key here ;)"
 SPOTIFY_ID = "put your ID here ;)"
 SPOTIFY_SECRET = "put your secrets here ... only the Spotify ones though ... ;)"
 
+MUSICBRAINZ_BASE_URL = "https://musicbrainz.org/ws/2"
+MUSICBRAINZ_HEADER = "{PROJECT}/{version} ({email or url})"
+
 
 default_band_id_dict = {
     "Bastille": "bastille-23def877",
