@@ -13,7 +13,7 @@ so the process can pick up directly from there.
 
 Note:
 - replace the `USER_AGENT` value with your equivalent. See `utils.py`.
-- We have written to songexploder, raising this use case and offering to provide structured data of this kind to their site.
+- We have written to the Song Exploder team, raising this use case and offering to provide structured data of this kind to their site.
 """
 
 __author__ = ["Mark Gotham", "Shujin Gan"]
@@ -23,6 +23,7 @@ import io
 
 from PyPDF2 import PdfReader
 import re
+import spacy  # NB: also install `spacy.cli.download("en_core_web_sm")`
 from typing import Optional
 from urllib.request import Request, urlopen
 
@@ -89,7 +90,6 @@ def get_transcript_urls(
                 match = re.search(pattern, title)
                 if match:
                     href_value = match.group(1)
-                    print(page, "... href found, adding.")
                     transcript_urls.append(href_value)
                 else:
                     print(page, "... No href found.")
@@ -101,7 +101,7 @@ def get_transcript_urls(
     return list(dict.fromkeys(transcript_urls))
 
 
-def extract_transcript_text(
+def extract_transcript_text_from_url(
         transcript_url: str,
         headers: Optional[dict] = None
 ) -> str:
@@ -132,56 +132,201 @@ def extract_transcript_text(
         return ""
 
 
-def extract_sentences_with_keywords(text: str, pattern: str) -> list:
+def extract_sentences_with_keywords(
+        text: str,
+        keyword: str = "set"
+) -> list:
     """
-    Extract sentences containing specific keywords from the text.
+    Given a text, extract sentences that contain the specific keyword (default, "set") in any context
+    and return that sentence lightly adapted to replace all white space with single regular space.
 
     Args:
-    - text (str): The text to extract sentences from.
-    - pattern (str): The pattern to match in the sentences.
+    - text (str): The overall text to process.
+    - keyword (str): The character string to match.
 
     Returns:
-    - list: A list of sentences containing the keywords.
+    - list: list of matching, and lightly pre-processed sentences.
     """
     sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=[.?])\s', text)
-    return [sentence for sentence in sentences if re.search(pattern, sentence, re.IGNORECASE)]
+    return [
+        re.sub(r'\s+', ' ', s)
+        for s in sentences if keyword in s
+    ]
+
+
+def filter_true_positives(sentence: str) -> bool:
+    """
+    Given a sentence with the keyword (here "set") in it, take a closer look for true positives.
+
+    Include:
+    - any instance of "setlist"
+    - any instance of "set list" (next word = "list").
+    - cases where "set" is the last word in the sentence.
+
+    Exclude:
+    - cases where "set" is present but the following work makes it clearly irrelevant:
+    e.g., "set up", "set out".
+
+    This function will print cases that have been considered
+    and found to match ("Match: {x}.")
+    as well as those excluded (`Excluding: {x}`).
+    This enables for simple verification of most cases at a glance.
+
+    Include "set list" (obviously!) as well as ambiguous cases like "set for", "set at" (which might be relevant).
+
+    Args:
+    - sentence (str): The overall sentence to process (everything else is hard-coded).
+
+    Returns:
+    - list: bool, True is the sentences matches the given criteria.
+    """
+    if "setlist" in sentence:
+        print("Match: `setlist`.")
+        return True
+    else:
+        exclude_previous = ["drum", "skill"] # "skill set", "drum set"
+        exclude_next = ["against", "her", "him", "in", "it", "of", "off", "out", "up", "the"]
+
+        nlp = spacy.load("en_core_web_sm")
+        this_case = nlp(sentence)
+
+        for token in this_case:
+
+            if "set" in token.text: # Token at least _includes_ "set" (maybe be longer)
+
+                if token.text not in ("set", "sets"):
+                    print(f"Excluding: {token.text}")  # E.g. "set" within a longer word list "cassette".
+                    return False
+
+                if token.i == len(this_case):  # The token is exactly "set" or  "sets"
+                    print(f"Match: last word is `{token.text}`.")
+                    return True
+
+                next_token = this_case[token.i + 1]
+
+                if next_token == "list":
+                    print("Match: `set list`")
+                    return True
+                if next_token.text in exclude_next:
+                    print(f"Excluding: `set {next_token}`.")
+                    return False
+                if token.i > 0:
+                    prev_token = this_case[token.i - 1]
+                    if prev_token.text in exclude_previous:
+                        print(f"Excluding: `{prev_token} set`.")
+                        return False
+
+                print(f"Match: {token.text} {next_token.text}")
+                return True
+
+        return False
+
+
+def check_local_list() -> list:
+    """
+    Retrieve the latest list of podcast pages and check this against the local collection.
+    Return a list of new pages not currently included in the local list.
+    """
+    from song_exploder import se_urls as stored_transcript_urls
+    podcast_pages = get_podcast_pages(TARGET_URL, HEADERS)
+    found_transcript_urls = get_transcript_urls(podcast_pages, HEADERS)
+    return [x for x in found_transcript_urls if x not in stored_transcript_urls]
+
+
+def url_to_file_name(url: str) -> str:
+    """
+    Simple string adjustment for mapping from URL to more useful and succinct file name.
+    """
+    usual_start = "Song-Exploder-"
+    usual_end = "-Transcript"
+
+    file_name = url.split("/")[-1][:-4]
+
+    if file_name.lower().endswith(usual_end):
+        file_name = file_name[:-len(usual_end)]
+
+    if file_name.startswith(usual_start):
+        file_name = file_name[len(usual_start):]
+
+    return file_name + ".txt"
+
+
+def process_text(text: str) -> list:
+    """
+    First, organise into sentence and filter for any with the character string "set"
+    (`extract_sentences_with_keywords()`).
+    Then, only in those (rare) cases of a sentence with "set" further, undertake a closer look for true positives
+    (`filter_true_positives()`).
+    """
+    matches = []
+    sentences = extract_sentences_with_keywords(text)
+    for s in sentences:
+        if filter_true_positives(s):
+            print("match:", s)
+            matches.append(s)
+
+    return matches
 
 
 def main(
-        search_pattern: str = r"\b(?:set|setlist|set list)\b",
+        use_local_raw_text: bool = True,
         use_local_url_list: bool = True,
-        print_when_empty: bool = False
+        write_local: bool = False
 ):
-    if use_local_url_list:
-        from song_exploder import se_urls as transcript_urls
+    """
+    Main function for searching instances of "set" in the transcripts.
+
+    Args:
+        use_local_raw_text: Search on already downloaded raw text files ... if False then ...
+        use_local_url_list: Search online, but using the already retrieved list of URLs
+        ... if false then everything is from scratch.
+        write_local: Write the raw text to local files when retrieved.
+    """
+    if use_local_raw_text:
+        raw_dir = THIS_DIR / "song_exploder" / "raw"
+        files = [f for f in raw_dir.glob('*.txt') if f.is_file()]
+        print(len(files))
+
+        for f in files:
+            with open(f, "r", encoding="utf-8") as input_file:
+                text_content = input_file.read()
+                matches = process_text(text_content)
+                if not matches:
+                    continue
+                output_file_name = THIS_DIR / "song_exploder" / "filtered" /  f.name
+                with open(output_file_name, "w", encoding="utf-8") as output_file:
+                    output_file.write(f.name + '\n')
+                    for m in matches:
+                        output_file.write(m + '\n')
+                    output_file.write('======== END ============' + '\n')
+
     else:
-
-        podcast_pages = get_podcast_pages(TARGET_URL, HEADERS)
-        transcript_urls = get_transcript_urls(podcast_pages, HEADERS)
-
-    print("Processing these URLs... ")
-    count = 0
-    for transcript_url in transcript_urls:
-        count += 1
-        print("...", transcript_url)
-        text = extract_transcript_text(transcript_url, HEADERS)
-        pattern = search_pattern
-        sentences = extract_sentences_with_keywords(text, pattern)
-
-        output_file_path = THIS_DIR / "song_exploder" / f"results_{count}.txt"
-
-        if sentences:  # i.e., any results found
-            with open(output_file_path, "a", encoding="utf-8") as output_file:
-                output_file.write(transcript_url + '\n')
-                for sentence in sentences:
-                    output_file.write(sentence + '\n')
-                output_file.write('======== END ============' + '\n')
+        if use_local_url_list:
+            from song_exploder import se_urls as transcript_urls
         else:
-            print(f"No sentences found in {transcript_url}")
-            if print_when_empty:
-                with open(output_file_path, 'a', encoding='utf-8') as output_file:
+            podcast_pages = get_podcast_pages(TARGET_URL, HEADERS)
+            transcript_urls = get_transcript_urls(podcast_pages, HEADERS)
+
+        for transcript_url in transcript_urls:
+            print(transcript_url)
+            text = extract_transcript_text_from_url(transcript_url, HEADERS)
+
+            if write_local:
+                output_file_path = THIS_DIR / "song_exploder" / "raw" / url_to_file_name(transcript_url)
+
+                with open(output_file_path, "a", encoding="utf-8") as output_file:
                     output_file.write(transcript_url + '\n')
-                    output_file.write("No sentences found." + '\n')
+                    output_file.write(text + '\n')
+                    output_file.write('======== END ============' + '\n')
+
+            matches = process_text(text)
+            if matches:
+                file_name = url_to_file_name(transcript_url)
+                output_file_path = THIS_DIR / "song_exploder" / "filtered" /  file_name
+                with open(output_file_path, "r", encoding="utf-8") as output_file:
+                    output_file.write(file_name + '\n')
+                    for m in matches:
+                        output_file.write(m + '\n')
                     output_file.write('======== END ============' + '\n')
 
 
