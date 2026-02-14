@@ -93,7 +93,7 @@ Task:
   - Try writing all the scripts from nothing, without the reference solutions.
 
 
-## Task 2: Spotify API (optional)
+## Task 2: Spotify API
 
 Setlist.fm provides some great data, but often you'll find that your research needs
 (in this and any case)
@@ -162,6 +162,20 @@ Task:
 - Once you find a table, use `.find_next_sibling` to find the `<td>` elements with `class_="infobox-data"`
 
 
+## Task 5: Structured Metadata from MusicBrainz
+
+All this web scraping is a bit of a hacky workaround.
+Let's get serious and try to link what we have to some kind of central metadata authority.
+
+[MusicBrainz](https://musicbrainz.org/doc/MusicBrainz_API/)
+is one of the most extentive sources of musical metadata,
+particularly for the cases here (mostly Western, pop music, with identifiable commercially recordings).
+[The MusicBrainz API (details here)](https://musicbrainz.org/doc/MusicBrainz_API/)
+is very open.
+You don't need to pay or even have an account, simply
+[provide a meaningful `User-Agent` string (details here)](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#Provide_meaningful_User-Agent_strings)
+
+
 ## Research Questions
 
 At the end of this whole process, let's consider some high level questions:
@@ -169,6 +183,7 @@ At the end of this whole process, let's consider some high level questions:
 - What is the quality of that data?
 - What / how permissive are the API terms of use?
 - What happens if (when) companies start limiting or stopping their APIs.
+- To what extent is one source of data related to another?
 
 ## Appendix: Definitions
 
