@@ -77,8 +77,7 @@ Task:
 - Standard version:
   - Have a look at [the code repo](https://github.com/programming-concert-programming/setlists).
   - Figure out where to put your "API key" and "user agent" information.
-  - Pick any event on setlist.fm and note the event ID*. 
-  - Get the code running to retrieve full data for that event.
+  - Use this to find out what the concert with event_id `2bd1d8ce` refers to.
 - *Hint:
   - For a simple starting point, you can see the ID of an event ID in the main, public-facing URLs. 
     - These URLs take various forms, ending with the event ID, such as:
@@ -90,6 +89,8 @@ Task:
     - Knowing the event ID is not enough to reconstruct the public-facing URL. 
   - It _is enough_ via the API. The json data for an event includes a key:value pair for the URL.
 - Bonus version:
+  - Pick any event on setlist.fm and note the event ID. 
+  - Get the code running to retrieve full data for that event.
   - Try writing all the scripts from nothing, without the reference solutions.
 
 
