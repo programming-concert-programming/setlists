@@ -1,21 +1,42 @@
-# Placeholder directory for song exploder transcript scrape output
+# Song Exploder Transcript Notes
 
-This directory could be used to host a local copy of `.txt` files
-for sentences identified in song exploder transcripts that match the search term.
+This directory can be used to host a local copy of `.txt` files
+for sentences identified in song exploder transcript extract.
 
-- The files are named in the form `results_<number>.txt`.
-- `number` is that of the ordering in the URL list, not the episode number. This may change.
-- In the case of searching for references to setlists using the search term `` results in
-  - 1 single true positives
-    - The already known and motivating case of the Green Day episode (`results_21.txt`)
-      - "we had our set list, and we were just gonna stick to it." (`2024/02/Song-Exploder-Green-Day-Transcript.pdf`)
-  - Some borderline cases:
-    - "sweet moment in the set" (`2023/08/Song-Exploder-Local-Natives-Transcript.pdf`, `results_31.txt`)
-    - 'clock tick ... DJ ... easy to mix in a set.' (`2022/08/Song-Exploder-Madonna-Transcript.pdf`, `results_49.txt`)
-    - "played a set" (`http://songexploder.net/transcripts/the-lumineers-transcript.pdf`, `results_216.txt`)
-    - "in my live-set lately" (`http://songexploder.net/transcripts/open-mike-eagle-transcript.pdf`, `results_271.txt`)
-  - 88 many false positives
-    - Common cases include: 'drum set', 'set [it] up', 'on a|the set' (meaning film/TV), 'set in|of|at|a', 'box set' ...
-    - We may return and adapt the script to exclude such cases.
-  - Unknown false negatives
-  - c.200 cases of no match.
+In this repo, we ... :
+- provide a [`raw`](./raw) directory in case that is useful to users
+(there is support for it in the code),
+but do not publicly store any data there.
+- provide and use a [`filtered`](./filtered) directory for short quotes indicating true positive match.
+
+See the code for the logic of in/exclusion.
+Most transcripts have clearly no match.
+A little over 10% (c.40 per c.300 cases in early 2026) return a _possible_ match.
+The following 8 are true positives: manually filtered cases from among those 40
+which clearly refer to and comment on a setlist:
+- [`100-gecs-transcript`](./filtered/100-gecs-transcript.txt)
+- [`Green-Day`](./filtered/Green-Day.txt)
+  - "we had our set list, and we were just gonna stick to it."
+  - This is notable as the already known, motivating case with insight into setlist formation.
+- [`hozier-transcript`](./filtered/hozier-transcript.txt)
+- [`Local-Natives`](./filtered/Local-Natives.txt)
+  - "sweet moment in the set"
+  - Interesting comment on the flow of a set.
+- [`Madonna`](./filtered/Madonna.txt)
+  - "clock tick ... DJ ... easy to mix in a set." 
+- [`open-mike-eagle-transcript`](./filtered/open-mike-eagle-transcript.txt)
+  - "in my live-set lately"
+- [`semisonic-transcript`](./filtered/semisonic-transcript.txt)
+- [`Tears-For-Fears`](./filtered/Tears-For-Fears.txt)
+The [filtered directory](./filtered) includes these short quotes (separate files for each.
+
+Some other cases match in the sense of clear reference to
+"sets, setlist" etc. but no real comment on it
+(e.g., "the lumineers": "we had played a set and ...").
+
+The rest are false positivesL
+- Common cases include: 'drum set', 'set [it] up', 'on a|the set' (meaning film/TV), 'set in|of|at|a', 'box set' ...
+- We filter many of these automatically, but the script still returns some.
+- again, it's better to err on the side of having some false positives.
+
+There may be unknown false negatives, but it seems unlikely given the inclusive criteria.
