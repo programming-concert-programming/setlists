@@ -178,7 +178,7 @@ utils.py
 
 distinct_setlist_IDs/*
 data/*
-song_exploder/*
+song_exploder/raw/*.txt
 setlists/*
 plots/*
 sandbox.py
