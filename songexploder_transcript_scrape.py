@@ -184,7 +184,7 @@ def filter_true_positives(sentence: str) -> bool:
         print("Match: `setlist`.")
         return True
     else:
-        exclude_previous = ["drum", "skill"] # "skill set", "drum set"
+        exclude_previous = ["box", "drum", "skill", "sun"] # "skill set" ...
         exclude_next = ["against", "her", "him", "in", "it", "of", "off", "out", "up", "the"]
 
         nlp = spacy.load("en_core_web_sm")
@@ -298,7 +298,6 @@ def main(
                     output_file.write(f.name + '\n')
                     for m in matches:
                         output_file.write(m + '\n')
-                    output_file.write('======== END ============' + '\n')
 
     else:
         if use_local_url_list:
@@ -315,19 +314,15 @@ def main(
                 output_file_path = THIS_DIR / "song_exploder" / "raw" / url_to_file_name(transcript_url)
 
                 with open(output_file_path, "a", encoding="utf-8") as output_file:
-                    output_file.write(transcript_url + '\n')
-                    output_file.write(text + '\n')
-                    output_file.write('======== END ============' + '\n')
+                    output_file.write(text)
 
             matches = process_text(text)
             if matches:
                 file_name = url_to_file_name(transcript_url)
                 output_file_path = THIS_DIR / "song_exploder" / "filtered" /  file_name
                 with open(output_file_path, "r", encoding="utf-8") as output_file:
-                    output_file.write(file_name + '\n')
                     for m in matches:
                         output_file.write(m + '\n')
-                    output_file.write('======== END ============' + '\n')
 
 
 if __name__ == "__main__":
